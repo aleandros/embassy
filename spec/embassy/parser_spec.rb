@@ -14,7 +14,7 @@ describe Embassy::Parser do
   end
 
   describe 'public interface' do
-    subject { Embassy::Parser.new '1' }
+    subject { Embassy::Parser.new 'hola: adios' }
 
     it 'has a public configuration property' do
       subject.must_respond_to :configuration
@@ -24,6 +24,10 @@ describe Embassy::Parser do
   describe '#initialize' do
     it 'raises exception with invalid YAML' do
       proc { Embassy::Parser.new '%%' }.must_raise Psych::SyntaxError
+    end
+
+    it 'raises exception if parsed YAML is not an object' do
+      proc { Embassy::Parser.new 'hi' }.must_raise RuntimeError
     end
   end
 

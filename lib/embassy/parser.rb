@@ -11,6 +11,7 @@ module Embassy
 
     def initialize string
       @configuration = YAML.load string
+      raise 'Parsed value is not an object' unless @configuration.class == Hash
     end
   end
 end
