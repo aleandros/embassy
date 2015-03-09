@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = Embassy::VERSION
   spec.authors       = ["Edgar Cabrera"]
   spec.email         = ["ecabrera@intelimetrica.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = ""
+  spec.summary       = %q{System for simulating and validating APIs}
+  spec.description   = %q{Embassy is a system for describing JSON APIs via YAML files, which can then serve as a simualtion for the client, or as validation for the server}
+  spec.homepage      = "https://github.com/aleandros/embassy"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
