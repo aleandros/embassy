@@ -37,5 +37,9 @@ describe Embassy::Parser do
     it 'is a hash' do
       subject.must_be_instance_of Hash
     end
+
+    it 'can compose a route' do
+      subject.must_equal({'/api/resource' => 1})
+    end
   end
 end

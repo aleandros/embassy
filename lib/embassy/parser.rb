@@ -10,8 +10,26 @@ module Embassy
     attr_reader :configuration
 
     def initialize string
-      @configuration = YAML.load string
-      raise 'Parsed value is not an object' unless @configuration.class == Hash
+      data = YAML.load string
+      raise 'Parsed value is not an object' unless data.class == Hash
+      @configuration = traverse data
+    end
+
+    private
+    def traverse data
+      routes = {}
+      helper = lambda do |obj, route|
+        obj.each do |k, v|
+          r = route + k
+          if v.is_a? Hash
+            helper[v, r]
+          else
+            routes[r] = v
+          end
+        end
+        routes
+      end
+      helper[data, '']
     end
   end
 end
