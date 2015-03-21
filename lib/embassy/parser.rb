@@ -11,11 +11,15 @@ module Embassy
 
     def initialize string
       data = YAML.load string
-      raise 'Parsed value is not an object' unless data.class == Hash
+      validate! data
       @configuration = traverse data
     end
 
     private
+    def validate! data
+      raise 'Parsed value is not an object' unless data.class == Hash
+    end
+
     def traverse data
       routes = {}
       helper = lambda do |obj, route|
