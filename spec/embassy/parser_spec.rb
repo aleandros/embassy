@@ -24,14 +24,19 @@ describe Embassy::Parser do
   end
 
   describe '#configuration' do
-    subject { Embassy::Parser.new(basic_example[:input]).configuration }
-
     it 'is a hash' do
-      subject.must_be_instance_of Hash
+      Embassy::Parser.new(configuration_fixtures['can create a single route'][:input])
+        .configuration.must_be_instance_of Hash
     end
 
-    it 'can compose a route' do
-      subject.must_equal(basic_example[:output])
+    configuration_fixtures.each do |name, fixture|
+      it name do
+        if fixture[:output].class == Class
+          proc { Embassy::Parser.new fixture[:input] }.must_raise fixture[:output]
+        else
+          Embassy::Parser.new(fixture[:input]).configuration.must_equal fixture[:output]
+        end
+      end
     end
   end
 end
