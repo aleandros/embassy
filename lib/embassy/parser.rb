@@ -28,22 +28,6 @@ module Embassy
         def validate! data
           raise 'Parsed value is not an object' unless data.class == Hash
         end
-
-        def traverse data
-          routes = {}
-          helper = lambda do |obj, route|
-            obj.each do |k, v|
-              r = route + k
-              if v.is_a? Hash
-                helper[v, r]
-              else
-                routes[r] = v
-              end
-            end
-            routes
-          end
-          helper[data, '']
-        end
     end
   end
 end
