@@ -37,6 +37,18 @@ def configuration_fixtures
         '/entry_1/resource_b/nested_b' => 3,
         '/entry_2/resource_c' => 4
       }
+    },
+    'allows non-bottom level routes to return a value' => {
+      input: %q{
+        /api:
+          /resource:
+            1
+          returns: 2
+      },
+      output: {
+        '/api/resource' => 1,
+        '/api' => 2
+      }
     }
   }
 end
