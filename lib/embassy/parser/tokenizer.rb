@@ -19,6 +19,7 @@ module Embassy
         end
 
         validate_top_level!
+        validate_group!
       end
 
       private
@@ -27,6 +28,16 @@ module Embassy
               !t.is_route?
           end
           raise 'Invalid top level' if invalid
+        end
+
+        def validate_group!
+          has_normal = @tokens.any? do |t|
+            t.is_route? || t.is_meta?
+          end
+          has_raw = @tokens.any? do |t|
+            !t.is_route? && !t.is_meta?
+          end
+          raise 'Invalid object combination' if has_raw && has_normal
         end
     end
   end
