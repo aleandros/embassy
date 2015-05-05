@@ -15,7 +15,7 @@ module Embassy
 
       def recurse tokens
         tokens.each do |t|
-          if t.is_data?
+          if t.is_meta?
             @store << t
           elsif t.is_route?
             if t.has_next_token?

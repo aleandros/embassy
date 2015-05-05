@@ -18,8 +18,8 @@ module Embassy
         @key.start_with? '/'
       end
 
-      def is_data?
-        @key == 'returns'
+      def is_meta?
+        @key.start_with? '$'
       end
 
       def has_next_token?
@@ -27,10 +27,10 @@ module Embassy
       end
 
       def as_result
-        if is_data?
-          [@parent, @value]
+        if is_meta?
+          [@parent, @key[1..-1].to_sym, @value]
         else
-          [as_parent, @value]
+          [as_parent, :body, @value]
         end
       end
 

@@ -14,8 +14,20 @@ module Embassy
       end
 
       def << token
-        route, data = token.as_result
-        @routes[route] = data
+        route, field, data = token.as_result
+
+        is_body = field == :body
+        exists = @routes.has_key? route
+
+        if exists
+          @routes[route][field] = data
+        else
+          if is_body
+            @routes[route] = data
+          else
+            @routes[route] = {field => data}
+          end
+        end
       end
     end
   end

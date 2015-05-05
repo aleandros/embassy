@@ -7,6 +7,7 @@ require 'yaml'
 require_relative 'parser/token'
 require_relative 'parser/tokenizer'
 require_relative 'parser/store'
+require_relative 'parser/traverser'
 
 module Embassy
   module Parser
@@ -17,10 +18,10 @@ module Embassy
         data = YAML.load string
         validate! data
 
-        @tokens = Tokenizer.new(data).tokens
+        tokens = Tokenizer.new(data).tokens
 
         store = Store.new
-        Traverser.new store, @tokens
+        Traverser.new store, tokens
         @configuration = store.routes
       end
 

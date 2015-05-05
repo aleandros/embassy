@@ -43,11 +43,24 @@ def configuration_fixtures
         /api:
           /resource:
             1
-          returns: 2
+          $body: 2
       },
       output: {
         '/api/resource' => 1,
         '/api' => 2
+      }
+    },
+    'allows the specification of a return status code' => {
+      input: %q{
+        /api:
+          /resource_1: 'result'
+          /resource_2:
+            $status: 301
+            $body: 4
+      },
+      output: {
+        '/api/resource_1' => 'result',
+        '/api/resource_2' => {body: 4, status: 301}
       }
     }
   }
