@@ -62,6 +62,14 @@ def configuration_fixtures
         '/api/resource_1' => 'result',
         '/api/resource_2' => {body: 4, status: 301}
       }
+    },
+    'disallows using raw keys with meta-fields' => {
+      input: %q{
+        /api:
+          $body: 'hello'
+          raw: 1
+      },
+      output: RuntimeError
     }
   }
 end
