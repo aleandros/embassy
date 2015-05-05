@@ -15,14 +15,10 @@ module Embassy
 
       def recurse tokens
         tokens.each do |t|
-          if t.is_meta?
+          if t.is_route? && t.has_next_token?
+            recurse Tokenizer.new(t.value, t.as_parent).tokens
+          else
             @store << t
-          elsif t.is_route?
-            if t.has_next_token?
-              recurse  Tokenizer.new(t.value, t.as_parent).tokens
-            else
-              @store << t
-            end
           end
         end
       end
