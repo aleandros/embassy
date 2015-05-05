@@ -70,6 +70,30 @@ def configuration_fixtures
           raw: 1
       },
       output: RuntimeError
+    },
+    'can return an object as a body' => {
+      input: %q{
+        /api:
+          $body:
+            a: 1
+            b: 2
+            c: 3
+      },
+      output: {
+        '/api' => {'a' => 1, 'b' => 2, 'c' => 3}
+      }
+    },
+    'can return an array as body' => {
+      input: %q{
+        /api:
+          $body:
+            - 1
+            - 2
+            - 3
+      },
+      output: {
+        '/api' => [1, 2, 3]
+      }
     }
   }
 end
