@@ -15,17 +15,26 @@ describe SERVER_CLASS do
   end
 
   describe 'with single route configuration' do
-    before do
-      raw = %q{
-        /route: 1
-      }
-      config = PARSER_CLASS.new(raw).configuration
-      app.set_routes! config
-    end
-
     it 'returns the value given the configuration' do
+      app.set_routes!({'/route' => 1})
       get '/route'
       last_response.body.must_equal '1'
     end
+
+    it 'correctly handles a body specification' do
+      app.set_routes!({'/route' => {body: 'hello'}})
+      get '/route'
+      last_response.body.must_equal 'hello'
+    end
+
+    it 'returns an OK status by default' do
+      app.set_routes!({'/route' => 1})
+      get '/route'
+      last_response.must_be :ok?
+    end
+  end
+
+  after do
+    app.reset!
   end
 end
