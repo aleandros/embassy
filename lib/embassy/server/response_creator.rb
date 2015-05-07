@@ -14,7 +14,9 @@ module Embassy
 
       def response
         body = get_body
+        status = get_status
         lambda do
+          status status
           body
         end
       end
@@ -31,6 +33,14 @@ module Embassy
           else
             @data
           end.to_s
+        end
+
+        def get_status
+          if has_meta?
+            @data[:status]
+          else
+            200
+          end
         end
     end
   end

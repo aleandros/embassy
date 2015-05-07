@@ -32,6 +32,12 @@ describe SERVER_CLASS do
       get '/route'
       last_response.must_be :ok?
     end
+
+    it 'returns the specific status code when provided' do
+      app.set_routes!({'/route' => {body: 1, status: 301}})
+      get '/route'
+      last_response.status.must_equal 301
+    end
   end
 
   after do
