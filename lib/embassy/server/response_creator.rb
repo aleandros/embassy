@@ -17,7 +17,7 @@ module Embassy
         status = get_status
         lambda do
           status status
-          body
+          json body
         end
       end
 
@@ -32,7 +32,7 @@ module Embassy
             @data[:body]
           else
             @data
-          end.to_s
+          end
         end
 
         def get_status

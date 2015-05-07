@@ -5,6 +5,7 @@
 # Edgar Cabrera, 2015
 # edgar@cafeinacode.com
 require 'sinatra/base'
+require 'sinatra/contrib'
 require_relative 'server/response_creator'
 
 module Embassy
