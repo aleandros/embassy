@@ -55,6 +55,26 @@ describe SERVER_CLASS do
     end
   end
 
+  describe 'with wildcards in routes' do
+    it 'accepts any number in route where specified' do
+      app.set_routes!({'/route/<number>' => 1 })
+      get '/route/1042'
+      last_response.must_be :ok?
+    end
+
+    it 'fails if passed a non-number for the number specification' do
+      app.set_routes!({'/route/<number>' => 1 })
+      get '/route/a1042'
+      last_response.wont_be :ok?
+    end
+
+    it 'accepts an alphanumeric string in route where specified' do
+      app.set_routes!({'/route/<alphanumeric>' => 1 })
+      get '/route/ab1234'
+      last_response.must_be :ok?
+    end
+  end
+
   after do
     app.reset!
   end

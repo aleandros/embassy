@@ -7,13 +7,15 @@
 require 'sinatra/base'
 require 'sinatra/contrib'
 require_relative 'server/response_creator'
+require_relative 'server/route_postprocessor'
 
 module Embassy
   module Server
     class Server < Sinatra::Application
       def self.set_routes! configuration
         configuration.each do |route, value|
-          get route, &ResponseCreator.new(value).response
+          get RoutePostProcessor.new(route).processed_route,
+              &ResponseCreator.new(value).response
         end
       end
     end
