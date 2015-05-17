@@ -1,5 +1,4 @@
-# Embassy
-[![Code Climate](https://codeclimate.com/github/aleandros/embassy/badges/gpa.svg)](https://codeclimate.com/github/aleandros/embassy)
+# Embassy [![Code Climate](https://codeclimate.com/github/aleandros/embassy/badges/gpa.svg)](https://codeclimate.com/github/aleandros/embassy)
 
 Command line tool for creating JSON APIs' specifications via YAML, then simulating said specification by running a server, and validating a real implementation of the API agains the user specification. Or at least that's what it'll do really soon!
 
