@@ -29,3 +29,8 @@ guard :minitest do
   watch(%r{^lib/(.+)\.rb$})         { "spec" }
   watch(%r{^spec/spec_helper\.rb$}) { 'spec' }
 end
+
+guard :rubocop, cli: ['lib'] do
+  watch(%r{.+\.rb$})
+  watch(%r{(?:.+/)?\.rubocop\.yml$}) { |m| File.dirname(m[0]) }
+end
