@@ -17,39 +17,39 @@ describe SERVER_CLASS do
 
   describe 'with single route configuration' do
     it 'returns the value given the configuration' do
-      app.set_routes!({'/route' => 1})
+      app.routes!({'/route' => 1})
       get '/route'
       last_response.body.must_equal '1'
     end
 
     it 'correctly handles a body specification' do
-      app.set_routes!({'/route' => {body: 'hello'}})
+      app.routes!({'/route' => {body: 'hello'}})
       get '/route'
       last_response.body.must_equal 'hello'.to_json
     end
 
     it 'returns an OK status by default' do
-      app.set_routes!({'/route' => 1})
+      app.routes!({'/route' => 1})
       get '/route'
       last_response.must_be :ok?
     end
 
     it 'returns the specific status code when provided' do
-      app.set_routes!({'/route' => {body: 1, status: 301}})
+      app.routes!({'/route' => {body: 1, status: 301}})
       get '/route'
       last_response.status.must_equal 301
     end
 
     it 'uses json as the return format' do
       hash = {'a' => 1, 'b' => 2}
-      app.set_routes!({'/route' => hash})
+      app.routes!({'/route' => hash})
       get '/route'
       last_response.body.must_equal hash.to_json
     end
 
     it 'uses json for returning arrays too' do
       arr = [1, 2, 3, 4]
-      app.set_routes!({'/route' => arr})
+      app.routes!({'/route' => arr})
       get '/route'
       last_response.body.must_equal arr.to_json
     end
@@ -57,19 +57,19 @@ describe SERVER_CLASS do
 
   describe 'with wildcards in routes' do
     it 'accepts any number in route where specified' do
-      app.set_routes!({'/route/<number>' => 1 })
+      app.routes!({'/route/<number>' => 1 })
       get '/route/1042'
       last_response.must_be :ok?
     end
 
     it 'fails if passed a non-number for the number specification' do
-      app.set_routes!({'/route/<number>' => 1 })
+      app.routes!({'/route/<number>' => 1 })
       get '/route/a1042'
       last_response.wont_be :ok?
     end
 
     it 'accepts an alphanumeric string in route where specified' do
-      app.set_routes!({'/route/<alphanumeric>' => 1 })
+      app.routes!({'/route/<alphanumeric>' => 1 })
       get '/route/ab1234'
       last_response.must_be :ok?
     end

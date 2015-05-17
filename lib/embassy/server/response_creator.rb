@@ -7,41 +7,67 @@
 
 module Embassy
   module Server
+    # This class creates a response to be returned
+    # by the route. A response is a block that will
+    # be passed to the +Sinatra+ route.
     class ResponseCreator
-      def initialize data
+      # Instiantiates the ResponseCreator.
+      #
+      # ===== Arguments
+      #
+      # * +data+ - The data associated to a route, as
+      #   provided by the route configuration hash.
+      def initialize(data)
         @data = data
       end
 
+      # Returns the response associated with
+      # the provided input data.
+      #
+      # ===== Returns
+      #
+      # A lambda to be passed to the +Server+ class.
+      # The lambda returns a json response, and sets
+      # the corresponding status (200 by default).
       def response
-        body = get_body
-        status = get_status
+        response_body = body
+        response_status = status
         lambda do
-          status status
-          json body
+          status response_status
+          json response_body
         end
       end
 
       private
-        def has_meta?
-          return false unless @data.is_a? Hash
-          @data.keys.any? { |k| k.is_a? Symbol }
-        end
 
-        def get_body
-          if has_meta?
-            @data[:body]
-          else
-            @data
-          end
-        end
+      # Indicates if the provided data is metadata,
+      # which helps other methods decide how to
+      # handle the input.
+      def meta?
+        return false unless @data.is_a? Hash
+        @data.keys.any? { |k| k.is_a? Symbol }
+      end
 
-        def get_status
-          if has_meta?
-            @data[:status]
-          else
-            200
-          end
+      # Return the body associated to the response,
+      # depending on wether it is a raw value or it
+      # is contained in the +:body+ metadata.
+      def body
+        if meta?
+          @data[:body]
+        else
+          @data
         end
+      end
+
+      # Returns the status associated with the response.
+      # If not provided, use 200 (HTTP OK) by default.
+      def status
+        if meta?
+          @data[:status]
+        else
+          200
+        end
+      end
     end
   end
 end
