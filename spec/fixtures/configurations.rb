@@ -69,7 +69,7 @@ def configuration_fixtures
           $body: 'hello'
           raw: 1
       },
-      output: RuntimeError
+      output: Embassy::Parser::UnexpectedTypeError
     },
     'can return an object as a body' => {
       input: %q{

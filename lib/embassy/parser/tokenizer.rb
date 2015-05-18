@@ -59,7 +59,7 @@ module Embassy
         invalid = @root.nil? && @tokens.any? do |t|
           !t.route?
         end
-        fail 'Invalid top level' if invalid
+        fail UnexpectedTypeError, 'Found non-route at toplevel' if invalid
       end
 
       # Validate that the +#tokens+ do not combine
@@ -74,7 +74,7 @@ module Embassy
           !t.route? && !t.meta?
         end
 
-        fail 'Invalid object combination' if has_raw && has_normal
+        fail UnexpectedTypeError, 'Invalid combination' if has_raw && has_normal
       end
     end
   end

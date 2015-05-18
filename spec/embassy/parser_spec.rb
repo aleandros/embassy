@@ -4,7 +4,8 @@
 # edgar@cafeinacode.com
 require_relative '../spec_helper.rb'
 
-PARSER_CLASS = Embassy::Parser::Parser
+PARSER_NS    = Embassy::Parser
+PARSER_CLASS = PARSER_NS::Parser
 
 describe PARSER_CLASS do
   describe 'public interface' do
@@ -17,15 +18,18 @@ describe PARSER_CLASS do
 
   describe '#initialize' do
     it 'raises exception with invalid YAML' do
-      proc { PARSER_CLASS.new '%%' }.must_raise Psych::SyntaxError
+      err = proc { PARSER_CLASS.new '%%' }.must_raise PARSER_NS::MalformedInputError
+      err.message.must_match(/malformed input/i)
     end
 
     it 'raises exception if any top level value is not a route' do
-      proc { PARSER_CLASS.new 'hi: 1' }.must_raise RuntimeError
+      err = proc { PARSER_CLASS.new 'hi: 1' }.must_raise PARSER_NS::UnexpectedTypeError
+      err.message.must_match(/non-route at toplevel/i)
     end
 
     it 'raises exception if parsed YAML is not an object' do
-      proc { PARSER_CLASS.new 'hi' }.must_raise RuntimeError
+      err = proc { PARSER_CLASS.new 'hi' }.must_raise PARSER_NS::UnexpectedTypeError
+      err.message.must_match(/hash[\s\w]+expected/i)
     end
   end
 

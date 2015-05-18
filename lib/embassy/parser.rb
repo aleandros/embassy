@@ -8,6 +8,7 @@ require_relative 'parser/token'
 require_relative 'parser/tokenizer'
 require_relative 'parser/store'
 require_relative 'parser/traverser'
+require_relative 'parser/errors'
 
 module Embassy
   # Namespace for the logic of creating
@@ -42,6 +43,8 @@ module Embassy
         store = Store.new
         Traverser.new store, tokens
         @configuration = store.routes
+      rescue Psych::SyntaxError
+        raise MalformedInputError, 'Malformed input string'
       end
 
       private
@@ -50,7 +53,7 @@ module Embassy
       # the first level of parsing, (that is, after have been
       # converted into a Hah by the appropriate class.
       def validate!(data)
-        fail 'Parsed value is not an object' unless data.class == Hash
+        fail UnexpectedTypeError, 'A Hash was expected' unless data.is_a? Hash
       end
     end
   end
